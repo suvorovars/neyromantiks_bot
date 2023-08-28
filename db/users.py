@@ -4,6 +4,12 @@ from db.db_session import SqlAlchemyBase
 
 
 class User(SqlAlchemyBase):
+    """
+    Объект таблицы users, в которой хранится:
+    id - номер пользователя
+    id_social_network - id пользователя в соц.сети
+    name - имя пользователя
+    """
     __tablename__ = 'users'
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)

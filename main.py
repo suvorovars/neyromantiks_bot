@@ -1,12 +1,7 @@
-from db import db_session
-from db.users import User
-from db.tasks import Task
+import asyncio
 
-db_session.global_init('data/tasks.db')
-db_s = db_session.create_session()
-user = User()
-user.name = 'Ivan'
-user.id_social_network = 'vk001'
-db_s.add(user)
-db_s.commit()
-print(db_s.query(User))
+import constants
+from vk_bot.vk_bot import run_vk_bot
+
+if __name__ == '__main__':
+    asyncio.run(run_vk_bot(constants.vk_token))

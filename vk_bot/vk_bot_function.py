@@ -1,4 +1,3 @@
-# функция получения токена из файла
 from tokenize import String
 
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor
@@ -12,12 +11,12 @@ def get_token(filename) -> String:
         return token
 
 
-# функция отправки сообщения
-def send_message(session, user_id, message):
-    session.method('messages.send', {'user_id': user_id, 'message': message, 'random_id': 0})
-
-
-def create_keyboard():
+def create_keyboard(*lst: String) -> VkKeyboard:
     keyboard = VkKeyboard(one_time=True)
-    keyboard.add_button('Кнопка 1', color=VkKeyboardColor.PRIMARY)
-    keyboard.add_button('Кнопка 2', color=VkKeyboardColor.PRIMARY)
+    if not lst:
+        keyboard.add_button('Подать заявку', color=VkKeyboardColor.POSITIVE)
+        keyboard.add_button('Проверить состояние заявок', color=VkKeyboardColor.SECONDARY)
+    else:
+        for i in lst:
+            keyboard.add_button(i, color=VkKeyboardColor.POSITIVE)
+    return keyboard
