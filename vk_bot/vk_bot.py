@@ -19,12 +19,12 @@ USERS_IN_MESSAGE_SEQUENCE = {}
 async def message_reply(vk, event):
     global USERS_IN_MESSAGE_SEQUENCE
     if event.text == 'Подать заявку':
-        USERS_IN_MESSAGE_SEQUENCE[event.user_id] = 1
         vk.messages.send(
             peer_id=event.user_id,
             random_id=get_random_id(),
             message="Введите вашу заявку в рамках одного сообщения. Приложите к этому сообщению все нужные файлы "
         )
+        USERS_IN_MESSAGE_SEQUENCE[event.user_id] = 1
     elif event.text == "Проверить состояние заявок":
         session = db_session.create_session()
         tasks = session.query(Task).filter(Task.user_id == event.user_id)
@@ -62,9 +62,27 @@ async def message_reply(vk, event):
                 vk.messages.send(
                     peer_id=event.user_id,
                     random_id=get_random_id(),
-                    keyboard=create_keyboard().get_keyboard(),
-                    message=""
+                    keyboard=create_keyboard("Ввести заявку заново", "Вернуться в меню").get_keyboard(),
+                    message="Хотите ввести заявку заново или вернуться в главное меню?"
                 )
+                USERS_IN_MESSAGE_SEQUENCE[event.user_id] = 3
+        elif USERS_IN_MESSAGE_SEQUENCE[event.user_id] == 3:
+            if event.text == "Ввести заявку заново":
+                vk.messages.send(
+                    peer_id=event.user_id,
+                    random_id=get_random_id(),
+                    message="Введите вашу заявку в рамках одного сообщения. Приложите к этому сообщению все нужные "
+                            "файлы"
+                )
+                USERS_IN_MESSAGE_SEQUENCE[event.user_id] = 1
+            else:
+                vk.messages.send(
+                    peer_id=event.user_id,
+                    random_id=get_random_id(),
+                    keyboard=create_keyboard().get_keyboard(),
+                    message='Выберите действие'
+                )
+                del USERS_IN_MESSAGE_SEQUENCE[event.user_id]
 
     else:
         vk.messages.send(
@@ -73,6 +91,7 @@ async def message_reply(vk, event):
             keyboard=create_keyboard().get_keyboard(),
             message='Выберите действие'
         )
+
 
 async def run_vk_bot(token: String):
     # создание сессии
