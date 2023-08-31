@@ -3,7 +3,7 @@ from tokenize import String
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 
 
-def get_token(filename) -> String:
+def get_token(filename: String) -> String:
     with open(filename) as f:
         token = f.read()
         if not token.startswith('vk'):

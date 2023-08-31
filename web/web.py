@@ -31,4 +31,5 @@ def run_web():
     print(port)
     app.run(host='0.0.0.0', port=port)
 
+
 # TODO возможно нужно сделать авторизацию в админке

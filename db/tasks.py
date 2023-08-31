@@ -6,7 +6,7 @@ from db.db_session import SqlAlchemyBase
 
 class Task(SqlAlchemyBase):
     """
-    ОбЪект таблицы tasks, в которой хранится
+    Объект таблицы tasks, в которой хранится
     id - номер задачи
     user_id - ссылка на номер пользователя из таблицы users
     task - Сама задача
