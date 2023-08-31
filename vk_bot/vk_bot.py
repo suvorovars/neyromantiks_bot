@@ -31,9 +31,8 @@ async def message_reply(vk, event):
         session = db_session.create_session()
         tasks = session.query(Task).filter(Task.user_id == event.user_id)
         print(tasks)
-        """
-        Реализовать Вывод Задач
-        """
+
+        # TODO Реализовать Вывод Задач
 
     elif event.user_id in USERS_IN_MESSAGE_SEQUENCE.keys():
         if USERS_IN_MESSAGE_SEQUENCE[event.user_id] == 1:
