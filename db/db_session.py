@@ -4,6 +4,9 @@ import sqlalchemy as sa
 import sqlalchemy.orm as orm
 from sqlalchemy.orm import Session, as_declarative
 
+import constants
+
+
 @as_declarative()
 class SqlAlchemyBase:
     # Базовый класс для объектов User и Task
@@ -28,7 +31,7 @@ def global_init(db_file: String) -> None:
     conn_str = f'sqlite:///{db_file.strip()}?check_same_thread=False' #Можно отредактировать, для использования с базами данных других типов
     print(f"Подключение к базе данных по адресу {conn_str}")
 
-    engine = sa.create_engine(conn_str, echo=True)
+    engine = sa.create_engine(conn_str, echo=constants.debug)
     __factory = orm.sessionmaker(bind=engine)
 
     from . import __all_models

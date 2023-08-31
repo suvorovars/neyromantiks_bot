@@ -18,7 +18,7 @@ class Task(SqlAlchemyBase):
     user = relationship("User", back_populates="tasks")
 
     task: Mapped[str] = mapped_column(nullable=False)
-    files: Mapped[str] = mapped_column()
+    files: Mapped[str] = mapped_column(nullable=True)
     status: Mapped[str] = mapped_column(default="В обработке у администратора")
 
 

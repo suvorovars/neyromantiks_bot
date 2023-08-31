@@ -10,6 +10,10 @@ from db.tasks import Task
 from db.users import User
 
 app = Flask(__name__)
+
+app.config['FLASK_ADMIN_SWATCH'] = 'united'
+app.config['SECRET_KEY'] = constants.web_secret_key
+
 db_session.global_init(constants.db_location)
 admin = Admin(app, name='Задачи Нейромантиков', template_mode='bootstrap4')
 db_s = db_session.create_session()
@@ -27,3 +31,4 @@ def run_web():
     print(port)
     app.run(host='0.0.0.0', port=port)
 
+# TODO возможно нужно сделать авторизацию в админке

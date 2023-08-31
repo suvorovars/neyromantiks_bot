@@ -16,6 +16,8 @@ db_session.global_init(constants.db_location)
 USERS_IN_MESSAGE_SEQUENCE = {}
 
 
+# TODO проверить работоспособность кода, оптимизировать
+# Обработчик сообщений
 async def message_reply(vk, event):
     global USERS_IN_MESSAGE_SEQUENCE
     if event.text == 'Подать заявку':
@@ -48,7 +50,9 @@ async def message_reply(vk, event):
                 keyboard=create_keyboard('Да', "Нет").get_keyboard(),
                 message='Это всё, идём дальше?'
             )
+
             USERS_IN_MESSAGE_SEQUENCE[event.user_id] = 2
+
         elif USERS_IN_MESSAGE_SEQUENCE[event.user_id] == 2:
             if event.text.lower == "да":
                 vk.messages.send(
@@ -57,7 +61,9 @@ async def message_reply(vk, event):
                     keyboard=create_keyboard().get_keyboard(),
                     message="Ваша заявка принята в обработку, ожидайте ответа администратора"
                 )
+
                 del USERS_IN_MESSAGE_SEQUENCE[event.user_id]
+
             else:
                 vk.messages.send(
                     peer_id=event.user_id,
@@ -65,8 +71,11 @@ async def message_reply(vk, event):
                     keyboard=create_keyboard("Ввести заявку заново", "Вернуться в меню").get_keyboard(),
                     message="Хотите ввести заявку заново или вернуться в главное меню?"
                 )
+
                 USERS_IN_MESSAGE_SEQUENCE[event.user_id] = 3
+
         elif USERS_IN_MESSAGE_SEQUENCE[event.user_id] == 3:
+            # TODO удалить последнюю запись этого пользователя
             if event.text == "Ввести заявку заново":
                 vk.messages.send(
                     peer_id=event.user_id,
@@ -74,7 +83,9 @@ async def message_reply(vk, event):
                     message="Введите вашу заявку в рамках одного сообщения. Приложите к этому сообщению все нужные "
                             "файлы"
                 )
+
                 USERS_IN_MESSAGE_SEQUENCE[event.user_id] = 1
+
             else:
                 vk.messages.send(
                     peer_id=event.user_id,
