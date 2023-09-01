@@ -8,6 +8,8 @@ from db import db_session
 import constants
 from db.tasks import Task
 from db.users import User
+from web.TasksView import TasksView
+from web.UsersView import UsersView
 
 app = Flask(__name__)
 
@@ -17,8 +19,8 @@ app.config['SECRET_KEY'] = constants.web_secret_key
 db_session.global_init(constants.db_location)
 admin = Admin(app, name='Задачи Нейромантиков', template_mode='bootstrap4')
 db_s = db_session.create_session()
-admin.add_view(ModelView(User, db_s))
-admin.add_view(ModelView(Task, db_s))
+admin.add_view(UsersView(User, db_s))
+admin.add_view(TasksView(Task, db_s))
 
 
 @app.route('/')
