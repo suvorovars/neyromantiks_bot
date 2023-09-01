@@ -6,14 +6,14 @@ from sqlalchemy.orm import Session, as_declarative
 
 import constants
 
+# переменная, которая хранит фабрику сессий базы данных
+__factory = None
+
 
 @as_declarative()
 class SqlAlchemyBase:
     # Базовый класс для объектов User и Task
     pass
-
-# переменная, которая хранит фабрику сессий базы данных
-__factory = None
 
 
 def global_init(db_file: String) -> None:
@@ -28,7 +28,7 @@ def global_init(db_file: String) -> None:
     if not db_file or not db_file.strip():
         raise Exception("Необходимо указать файл базы данных.")
 
-    conn_str = f'sqlite:///{db_file.strip()}?check_same_thread=False'  # Можно отредактировать, для использования с базами данных других типов
+    conn_str = db_file  # Можно отредактировать, для использования с базами данных других типов
     print(f"Подключение к базе данных по адресу {conn_str}")
 
     engine = sa.create_engine(conn_str, echo=constants.debug)

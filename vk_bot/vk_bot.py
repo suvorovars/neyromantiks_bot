@@ -54,7 +54,7 @@ async def message_reply(vk: VkApiMethod, event: VkEventType.MESSAGE_NEW) -> None
             USERS_IN_MESSAGE_SEQUENCE[event.user_id] = 2
 
         elif USERS_IN_MESSAGE_SEQUENCE[event.user_id] == 2:
-            if event.text.lower == "да":
+            if event.text.lower() == "да":
                 vk.messages.send(
                     peer_id=event.user_id,
                     random_id=get_random_id(),
@@ -63,6 +63,8 @@ async def message_reply(vk: VkApiMethod, event: VkEventType.MESSAGE_NEW) -> None
                 )
 
                 del USERS_IN_MESSAGE_SEQUENCE[event.user_id]
+
+                # TODO сделать сообщения в чат
 
             else:
                 vk.messages.send(

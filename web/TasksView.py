@@ -13,7 +13,7 @@ class TasksView(ModelView):
         Task.status,
     )
     form_columns = (
-        Task.user_id,
+        Task.user_id, # TODO а где юзер айди?
         Task.task,
         Task.files,
         Task.status,
